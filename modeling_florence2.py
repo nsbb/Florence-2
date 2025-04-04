@@ -104,6 +104,7 @@ class PositionalEmbeddingCosine1D(nn.Module):
     This class implements a very simple positional encoding. It follows closely
     the encoder from the link below:
     https://pytorch.org/tutorials/beginner/translation_transformer.html
+
     Args:
         embed_dim: The dimension of the embeddings.
         dropout_prob: The dropout probability.
@@ -140,6 +141,7 @@ class PositionalEmbeddingCosine1D(nn.Module):
                 frame embedding dimension.
                 2. [B, T, D], where B is the batch size and T and D are the
                 same as above.
+
         Returns a tensor of with the same dimensions as the input: i.e.,
         [1, T, D] or [T, D].
         """
@@ -158,6 +160,7 @@ class PositionalEmbeddingCosine1D(nn.Module):
 class LearnedAbsolutePositionEmbedding1D(nn.Module):
     """
     Learnable absolute positional embeddings for 1D sequences.
+
     Args:
         embed_dim: The dimension of the embeddings.
         max_seq_len: The maximum length to precompute the positional encodings.
@@ -178,6 +181,7 @@ class LearnedAbsolutePositionEmbedding1D(nn.Module):
                 frame embedding dimension.
                 2. [B, T, D], where B is the batch size and T and D are the
                 same as above.
+
         Returns a tensor of with the same dimensions as the input: i.e.,
         [1, T, D] or [T, D].
         """
@@ -496,6 +500,7 @@ class SpatialBlock(nn.Module):
 
 class DaViT(nn.Module):
     """ DaViT: Dual-Attention Transformer
+
     Args:
         in_chans (int): Number of input image channels. Default: 3.
         num_classes (int): Number of classes for classification head. Default: 1000.
@@ -1028,6 +1033,7 @@ class Florence2FlashAttention2(Florence2Attention):
         """
         Calls the forward method of Flash Attention - if the input hidden states contain at least one padding token
         first unpad the input, then computes the attention scores and pad the final attention scores.
+
         Args:
             query_states (`torch.Tensor`):
                 Input query states to be passed to Flash Attention API
@@ -1460,6 +1466,7 @@ class Florence2Encoder(Florence2LanguagePreTrainedModel):
     """
     Transformer encoder consisting of *config.encoder_layers* self attention layers. Each layer is a
     [`Florence2EncoderLayer`].
+
     Args:
         config: Florence2LanguageConfig
         embed_tokens (nn.Embedding): output embedding
@@ -1517,18 +1524,24 @@ class Florence2Encoder(Florence2LanguagePreTrainedModel):
             input_ids (`torch.LongTensor` of shape `(batch_size, sequence_length)`):
                 Indices of input sequence tokens in the vocabulary. Padding will be ignored by default should you
                 provide it.
+
                 Indices can be obtained using [`AutoTokenizer`]. See [`PreTrainedTokenizer.encode`] and
                 [`PreTrainedTokenizer.__call__`] for details.
+
                 [What are input IDs?](../glossary#input-ids)
             attention_mask (`torch.Tensor` of shape `(batch_size, sequence_length)`, *optional*):
                 Mask to avoid performing attention on padding token indices. Mask values selected in `[0, 1]`:
+
                 - 1 for tokens that are **not masked**,
                 - 0 for tokens that are **masked**.
+
                 [What are attention masks?](../glossary#attention-mask)
             head_mask (`torch.Tensor` of shape `(encoder_layers, encoder_attention_heads)`, *optional*):
                 Mask to nullify selected heads of the attention modules. Mask values selected in `[0, 1]`:
+
                 - 1 indicates the head is **not masked**,
                 - 0 indicates the head is **masked**.
+
             inputs_embeds (`torch.FloatTensor` of shape `(batch_size, sequence_length, hidden_size)`, *optional*):
                 Optionally, instead of passing `input_ids` you can choose to directly pass an embedded representation.
                 This is useful if you want more control over how to convert `input_ids` indices into associated vectors
@@ -1640,6 +1653,7 @@ class Florence2Encoder(Florence2LanguagePreTrainedModel):
 class Florence2Decoder(Florence2LanguagePreTrainedModel):
     """
     Transformer decoder consisting of *config.decoder_layers* layers. Each layer is a [`Florence2DecoderLayer`]
+
     Args:
         config: Florence2LanguageConfig
         embed_tokens (nn.Embedding): output embedding
@@ -1700,13 +1714,17 @@ class Florence2Decoder(Florence2LanguagePreTrainedModel):
             input_ids (`torch.LongTensor` of shape `(batch_size, sequence_length)`):
                 Indices of input sequence tokens in the vocabulary. Padding will be ignored by default should you
                 provide it.
+
                 Indices can be obtained using [`AutoTokenizer`]. See [`PreTrainedTokenizer.encode`] and
                 [`PreTrainedTokenizer.__call__`] for details.
+
                 [What are input IDs?](../glossary#input-ids)
             attention_mask (`torch.Tensor` of shape `(batch_size, sequence_length)`, *optional*):
                 Mask to avoid performing attention on padding token indices. Mask values selected in `[0, 1]`:
+
                 - 1 for tokens that are **not masked**,
                 - 0 for tokens that are **masked**.
+
                 [What are attention masks?](../glossary#attention-mask)
             encoder_hidden_states (`torch.FloatTensor` of shape `(batch_size, encoder_sequence_length, hidden_size)`, *optional*):
                 Sequence of hidden-states at the output of the last layer of the encoder. Used in the cross-attention
@@ -1714,24 +1732,32 @@ class Florence2Decoder(Florence2LanguagePreTrainedModel):
             encoder_attention_mask (`torch.LongTensor` of shape `(batch_size, encoder_sequence_length)`, *optional*):
                 Mask to avoid performing cross-attention on padding tokens indices of encoder input_ids. Mask values
                 selected in `[0, 1]`:
+
                 - 1 for tokens that are **not masked**,
                 - 0 for tokens that are **masked**.
+
                 [What are attention masks?](../glossary#attention-mask)
             head_mask (`torch.Tensor` of shape `(decoder_layers, decoder_attention_heads)`, *optional*):
                 Mask to nullify selected heads of the attention modules. Mask values selected in `[0, 1]`:
+
                 - 1 indicates the head is **not masked**,
                 - 0 indicates the head is **masked**.
+
             cross_attn_head_mask (`torch.Tensor` of shape `(decoder_layers, decoder_attention_heads)`, *optional*):
                 Mask to nullify selected heads of the cross-attention modules in the decoder to avoid performing
                 cross-attention on hidden heads. Mask values selected in `[0, 1]`:
+
                 - 1 indicates the head is **not masked**,
                 - 0 indicates the head is **masked**.
+
             past_key_values (`tuple(tuple(torch.FloatTensor))`, *optional*, returned when `use_cache=True` is passed or when `config.use_cache=True`):
                 Tuple of `tuple(torch.FloatTensor)` of length `config.n_layers`, with each tuple having 2 tensors of
                 shape `(batch_size, num_heads, sequence_length, embed_size_per_head)`) and 2 additional tensors of
                 shape `(batch_size, num_heads, encoder_sequence_length, embed_size_per_head)`.
+
                 Contains pre-computed hidden-states (key and values in the self-attention blocks and in the
                 cross-attention blocks) that can be used (see `past_key_values` input) to speed up sequential decoding.
+
                 If `past_key_values` are used, the user can optionally input only the last `decoder_input_ids` (those
                 that don't have their past key value states given to this model) of shape `(batch_size, 1)` instead of
                 all `decoder_input_ids` of shape `(batch_size, sequence_length)`.
@@ -2097,6 +2123,7 @@ class Florence2LanguageForConditionalGeneration(Florence2LanguagePreTrainedModel
             Labels for computing the masked language modeling loss. Indices should either be in `[0, ...,
             config.vocab_size]` or -100 (see `input_ids` docstring). Tokens with indices set to `-100` are ignored
             (masked), the loss is only computed for the tokens with labels in `[0, ..., config.vocab_size]`.
+
         Returns:
         """
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
@@ -2211,6 +2238,7 @@ class Florence2Seq2SeqLMOutput(ModelOutput):
     """
     Base class for Florence-2 model's outputs that also contains : pre-computed hidden states that can speed up sequential
     decoding.
+
     Args:
         loss (`torch.FloatTensor` of shape `(1,)`, *optional*, returned when `labels` is provided):
             Language modeling loss.
@@ -2218,26 +2246,31 @@ class Florence2Seq2SeqLMOutput(ModelOutput):
             Prediction scores of the language modeling head (scores for each vocabulary token before SoftMax).
         last_hidden_state (`torch.FloatTensor` of shape `(batch_size, sequence_length, hidden_size)`):
             Sequence of hidden-states at the output of the last layer of the decoder of the model.
+
             If `past_key_values` is used only the last hidden-state of the sequences of shape `(batch_size, 1,
             hidden_size)` is output.
         past_key_values (`tuple(tuple(torch.FloatTensor))`, *optional*, returned when `use_cache=True` is passed or when `config.use_cache=True`):
             Tuple of `tuple(torch.FloatTensor)` of length `config.n_layers`, with each tuple having 2 tensors of shape
             `(batch_size, num_heads, sequence_length, embed_size_per_head)`) and 2 additional tensors of shape
             `(batch_size, num_heads, encoder_sequence_length, embed_size_per_head)`.
+
             Contains pre-computed hidden-states (key and values in the self-attention blocks and in the cross-attention
             blocks) that can be used (see `past_key_values` input) to speed up sequential decoding.
         decoder_hidden_states (`tuple(torch.FloatTensor)`, *optional*, returned when `output_hidden_states=True` is passed or when `config.output_hidden_states=True`):
             Tuple of `torch.FloatTensor` (one for the output of the embeddings, if the model has an embedding layer, +
             one for the output of each layer) of shape `(batch_size, sequence_length, hidden_size)`.
+
             Hidden-states of the decoder at the output of each layer plus the optional initial embedding outputs.
         decoder_attentions (`tuple(torch.FloatTensor)`, *optional*, returned when `output_attentions=True` is passed or when `config.output_attentions=True`):
             Tuple of `torch.FloatTensor` (one for each layer) of shape `(batch_size, num_heads, sequence_length,
             sequence_length)`.
+
             Attentions weights of the decoder, after the attention softmax, used to compute the weighted average in the
             self-attention heads.
         cross_attentions (`tuple(torch.FloatTensor)`, *optional*, returned when `output_attentions=True` is passed or when `config.output_attentions=True`):
             Tuple of `torch.FloatTensor` (one for each layer) of shape `(batch_size, num_heads, sequence_length,
             sequence_length)`.
+
             Attentions weights of the decoder's cross-attention layer, after the attention softmax, used to compute the
             weighted average in the cross-attention heads.
         encoder_last_hidden_state (`torch.FloatTensor` of shape `(batch_size, sequence_length, hidden_size)`, *optional*):
@@ -2245,15 +2278,18 @@ class Florence2Seq2SeqLMOutput(ModelOutput):
         encoder_hidden_states (`tuple(torch.FloatTensor)`, *optional*, returned when `output_hidden_states=True` is passed or when `config.output_hidden_states=True`):
             Tuple of `torch.FloatTensor` (one for the output of the embeddings, if the model has an embedding layer, +
             one for the output of each layer) of shape `(batch_size, sequence_length, hidden_size)`.
+
             Hidden-states of the encoder at the output of each layer plus the optional initial embedding outputs.
         encoder_attentions (`tuple(torch.FloatTensor)`, *optional*, returned when `output_attentions=True` is passed or when `config.output_attentions=True`):
             Tuple of `torch.FloatTensor` (one for each layer) of shape `(batch_size, num_heads, sequence_length,
             sequence_length)`.
+
             Attentions weights of the encoder, after the attention softmax, used to compute the weighted average in the
             self-attention heads.
         image_hidden_states (`tuple(torch.FloatTensor)`, *optional*):
             Tuple of `torch.FloatTensor` (one for the output of the image embeddings, `(batch_size,
             num_image_tokens, hidden_size)`.
+
             image_hidden_states of the model produced by the vision encoder
     """
     loss: Optional[torch.FloatTensor] = None
@@ -2273,9 +2309,11 @@ FLORENCE2_START_DOCSTRING = r"""
     This model inherits from [`PreTrainedModel`]. Check the superclass documentation for the generic methods the
     library implements for all its model (such as downloading or saving, resizing the input embeddings, pruning heads
     etc.)
+
     This model is also a PyTorch [torch.nn.Module](https://pytorch.org/docs/stable/nn.html#torch.nn.Module) subclass.
     Use it as a regular PyTorch Module and refer to the PyTorch documentation for all matter related to general usage
     and behavior.
+
     Parameters:
         config ([`Florence2Config`] or [`Florence2VisionConfig`]):
             Model configuration class with all the parameters of the model. Initializing with a config file does not
@@ -2316,8 +2354,10 @@ FLORENCE2_INPUTS_DOCSTRING = r"""
         input_ids (`torch.LongTensor` of shape `(batch_size, sequence_length)`):
             Indices of input sequence tokens in the vocabulary. Padding will be ignored by default should you provide
             it.
+
             Indices can be obtained using [`AutoTokenizer`]. See [`PreTrainedTokenizer.encode`] and
             [`PreTrainedTokenizer.__call__`] for details.
+
             [What are input IDs?](../glossary#input-ids)
         pixel_values (`torch.FloatTensor` of shape `(batch_size, num_channels, image_size, image_size)):
             The tensors corresponding to the input images. Pixel values can be obtained using
@@ -2325,16 +2365,22 @@ FLORENCE2_INPUTS_DOCSTRING = r"""
             [`CLIPImageProcessor`] for processing images).
         attention_mask (`torch.Tensor` of shape `(batch_size, sequence_length)`, *optional*):
             Mask to avoid performing attention on padding token indices. Mask values selected in `[0, 1]`:
+
             - 1 for tokens that are **not masked**,
             - 0 for tokens that are **masked**.
+
             [What are attention masks?](../glossary#attention-mask)
+
             Indices can be obtained using [`AutoTokenizer`]. See [`PreTrainedTokenizer.encode`] and
             [`PreTrainedTokenizer.__call__`] for details.
+
             If `past_key_values` is used, optionally only the last `decoder_input_ids` have to be input (see
             `past_key_values`).
+
             If you want to change padding behavior, you should read [`modeling_opt._prepare_decoder_attention_mask`]
             and modify to your needs. See diagram 1 in [the paper](https://arxiv.org/abs/1910.13461) for more
             information on the default strategy.
+
             - 1 indicates the head is **not masked**,
             - 0 indicates the head is **masked**.
         position_ids (`torch.LongTensor` of shape `(batch_size, sequence_length)`, *optional*):
@@ -2344,8 +2390,10 @@ FLORENCE2_INPUTS_DOCSTRING = r"""
             Tuple of `tuple(torch.FloatTensor)` of length `config.n_layers`, with each tuple having 2 tensors of shape
             `(batch_size, num_heads, sequence_length, embed_size_per_head)`) and 2 additional tensors of shape
             `(batch_size, num_heads, encoder_sequence_length, embed_size_per_head)`.
+
             Contains pre-computed hidden-states (key and values in the self-attention blocks and in the cross-attention
             blocks) that can be used (see `past_key_values` input) to speed up sequential decoding.
+
             If `past_key_values` are used, the user can optionally input only the last `decoder_input_ids` (those that
             don't have their past key value states given to this model) of shape `(batch_size, 1)` instead of all
             `decoder_input_ids` of shape `(batch_size, sequence_length)`.
@@ -2647,18 +2695,25 @@ class Florence2ForConditionalGeneration(Florence2PreTrainedModel):
                 Labels for computing the masked language modeling loss. Indices should either be in `[0, ...,
                 config.vocab_size]` or -100 (see `input_ids` docstring). Tokens with indices set to `-100` are ignored
                 (masked), the loss is only computed for the tokens with labels in `[0, ..., config.vocab_size]`.
+
         Returns:
+
         Example:
+
         ```python
         >>> from PIL import Image
         >>> import requests
         >>> from transformers import AutoProcessor, Florence2ForConditionalGeneration
+
         >>> model = Florence2ForConditionalGeneration.from_pretrained("microsoft/Florence-2-large")
         >>> processor = AutoProcessor.from_pretrained("microsoft/Florence-2-large")
+
         >>> prompt = "<CAPTION>"
         >>> url = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/transformers/tasks/car.jpg"
         >>> image = Image.open(requests.get(url, stream=True).raw)
+
         >>> inputs = processor(text=prompt, images=image, return_tensors="pt")
+
         >>> # Generate
         >>> generate_ids = model.generate(**inputs, max_length=100)
         >>> processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
